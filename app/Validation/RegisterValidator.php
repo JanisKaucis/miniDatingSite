@@ -12,11 +12,14 @@ class RegisterValidator implements RegisterValidatorInterface
     private string $password = '';
     private string $gender = '';
     private string $birthYear = '';
+    private int $uploadOk = 1;
+    private string $imageName = '';
     private string $nameErr = '';
     private string $surnameErr = '';
     private string $passwordErr = '';
     private string $password2Err = '';
     private string $emailErr = '';
+    private string $imageErr = '';
     private RegisteredUsersRepository $registeredUsersRepository;
 
     public function __construct(RegisteredUsersRepository $registeredUsersRepository)
@@ -59,11 +62,11 @@ class RegisterValidator implements RegisterValidatorInterface
             }
             if (empty($_POST['email'])) {
                 $this->emailErr = "Email is required";
-            }elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
                 $this->emailErr = 'Invalid Email';
-            } elseif (!empty($this->registeredUsersRepository->selectByEmail($_POST['email']))){
+            } elseif (!empty($this->registeredUsersRepository->selectByEmail($_POST['email']))) {
                 $this->emailErr = 'This email is already used';
-            }else {
+            } else {
                 $this->email = $this->inputRefactor($_SESSION['register']['email']);
             }
             if ($_POST['password'] != $_POST['password2']) {
@@ -73,65 +76,110 @@ class RegisterValidator implements RegisterValidatorInterface
             }
             $this->gender = $this->inputRefactor($_SESSION['register']['gender']);
             $this->birthYear = $this->inputRefactor($_SESSION['register']['birthYear']);
-            if (!empty($this->name) && !empty($this->surname) && !empty($this->email) && !empty($this->password)){
+            if (!empty($this->name) && !empty($this->surname) && !empty($this->email) &&
+                !empty($this->password)) {
                 $_SESSION['register']['success'] = 'You have successfully registered';
+
+                //uploadImage
+                if (!empty($_FILES["image"]["name"])) {
+                    $target_dir = "/home/janis/Desktop/php-projects/miniDatingSite/app/Storage/Pictures/";
+                    $this->imageName = basename($_FILES["image"]["name"]);
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    // Check if image file is a actual image or fake image
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check !== false) {
+                        $this->uploadOk = 1;
+                    } else {
+                        $this->imageErr = "File is not an image.";
+                        $this->uploadOk = 0;
+                    }
+                    // Check file size
+                    if ($_FILES["image"]["size"] > 2000000) {
+                        $this->imageErr = "Sorry, your file is too large.";
+                        $this->uploadOk = 0;
+                    }
+                    // Allow certain file formats
+                    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif") {
+                        $this->imageErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                        $this->uploadOk = 0;
+                    }
+                    if ($this->uploadOk == 1) {
+                        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                    }
+                }
             }
         }
-
-
     }
 
-    public function getName()
+    public function getName():string
     {
         return $this->name;
     }
 
-    public function getSurname()
+    public function getSurname():string
     {
         return $this->surname;
     }
 
-    public function getEmail()
+    public function getEmail():string
     {
         return $this->email;
     }
 
-    public function getPassword()
+    public function getPassword():string
     {
         return $this->password;
     }
 
-    public function getGender()
+    public function getGender():string
     {
         return $this->gender;
     }
 
-    public function getBirthYear()
+    public function getBirthYear():string
     {
         return $this->birthYear;
     }
-    public function getNameErr()
+    public function getNameErr():string
     {
         return $this->nameErr;
     }
 
-    public function getSurnameErr()
+    public function getSurnameErr():string
     {
         return $this->surnameErr;
     }
 
-    public function getEmailErr()
+    public function getEmailErr():string
     {
         return $this->emailErr;
     }
 
-    public function getPasswordErr()
+    public function getPasswordErr():string
     {
         return $this->passwordErr;
     }
 
-    public function getPassword2Err()
+    public function getPassword2Err():string
     {
         return $this->password2Err;
+    }
+    public function getImageErr(): string
+    {
+        return $this->imageErr;
+    }
+    public function getUploadOk(): int
+    {
+        return $this->uploadOk;
+    }
+    public function getImageName(): string
+    {
+        return $this->imageName;
+    }
+    public function setImageName(string $imageName): void
+    {
+        $this->imageName = $imageName;
     }
 }

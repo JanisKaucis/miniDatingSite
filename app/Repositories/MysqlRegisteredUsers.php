@@ -22,7 +22,8 @@ class MysqlRegisteredUsers implements RegisteredUsersRepository
     {
         $this->database->insert('registered_users',['name' => $person->getName(),
             'surname' => $person->getSurname(),'gender' => $person->getGender(),'email' => $person->getEmail(),
-            'birth_year' => $person->getBirthYear(),'password' => $person->getPassword()]);
+            'birth_year' => $person->getBirthYear(),'password' => $person->getPassword(),
+            'picture_path' => $person->getImage()]);
     }
     public function selectByEmail($email):array
     {

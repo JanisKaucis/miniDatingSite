@@ -5,16 +5,20 @@ interface RegisterValidatorInterface
 {
     public function inputRefactor($data): string;
     public function validateRegisterForm();
-    public function getName();
-    public function getSurname();
-    public function getEmail();
-    public function getPassword();
-    public function getGender();
-    public function getBirthYear();
-    public function getNameErr();
-    public function getSurnameErr();
-    public function getEmailErr();
-    public function getPasswordErr();
-    public function getPassword2Err();
+    public function getName():string;
+    public function getSurname():string;
+    public function getEmail():string;
+    public function getPassword():string;
+    public function getGender():string;
+    public function getBirthYear():string;
+    public function getNameErr():string;
+    public function getSurnameErr():string;
+    public function getEmailErr():string;
+    public function getPasswordErr():string;
+    public function getPassword2Err():string;
+    public function getImageErr(): string;
+    public function getUploadOk(): int;
+    public function getImageName(): string;
+    public function setImageName(string $imageName): void;
 
 }

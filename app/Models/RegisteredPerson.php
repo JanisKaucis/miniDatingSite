@@ -7,15 +7,17 @@ class RegisteredPerson
     private $surname;
     private $gender;
     private $email;
+    private $image;
     private $birthYear;
     private $password;
 
-    public function __construct($name, $surname, $gender,$email, $birthYear, $password)
+    public function __construct($name, $surname, $gender,$email,$image, $birthYear, $password)
     {
         $this->name = $name;
         $this->surname = $surname;
         $this->gender = $gender;
         $this->email = $email;
+        $this->image = $image;
         $this->birthYear = $birthYear;
         $this->password = $password;
     }
@@ -31,6 +33,10 @@ class RegisteredPerson
     public function getGender()
     {
         return $this->gender;
+    }
+    public function getImage()
+    {
+        return $this->image;
     }
     public function getBirthYear()
     {

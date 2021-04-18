@@ -8,20 +8,22 @@
     <title>Document</title>
 </head>
 <body>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <label for="register">Name: </label>
     <input type="text" id="register" name="name">{{ nameErr }}<br>
     <label for="register">Surname: </label>
     <input type="text" id="register" name="surname">{{ surnameErr }}<br>
+    <label for="register">Select image to upload: </label>
+        <input type="file" name="image" id="register">{{ imageErr }}<br>
     <label for="register">Email: </label>
     <input type="text" id="register" name="email">{{ emailErr }}<br>
     <label for="register">Gender: </label>
-    <select name="gender" id="gender">
+    <select id="register" name="gender">
         <option value="male">Male</option>
         <option value="female">Female</option>
     </select><br>
-    <label for="birthYear">Year of birth: </label>
-        <select name="birthYear">
+    <label for="register">Year of birth: </label>
+        <select id="register" name="birthYear">
             <option value="2018">2018</option>
             <option value="2017">2017</option>
             <option value="2016">2016</option>

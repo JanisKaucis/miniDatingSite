@@ -20,7 +20,6 @@ class RegisterService
 
     public function setRegisteredPerson()
     {
-
         $this->validator->validateRegisterForm();
             $this->context = [
                 'nameErr' => $this->validator->getNameErr(),
@@ -28,15 +27,25 @@ class RegisterService
                 'passwordErr' => $this->validator->getPasswordErr(),
                 'password2Err' => $this->validator->getPassword2Err(),
                 'emailErr' => $this->validator->getEmailErr(),
+                'imageErr' => $this->validator->getImageErr()
             ];
+            if (empty($this->validator->getImageName())){
+                $this->validator->setImageName('default.png');
+            }
+
         if (!empty($this->validator->getName()) && !empty($this->validator->getSurname()) &&
             !empty($this->validator->getPassword()) && !empty($this->validator->getEmail())) {
             $person = new RegisteredPerson($this->validator->getName(), $this->validator->getSurname(),
-                $this->validator->getGender(), $this->validator->getEmail(),
+                $this->validator->getGender(), $this->validator->getEmail(),$this->validator->getImageName(),
                 $this->validator->getBirthYear(),
                 $this->validator->getPassword());//TODO hide password
             $this->registeredUsersRepository->addUser($person);
             header('Location: /register');
+        }
+        else {
+            echo 'Not registered';
+            var_dump($this->validator->getName());
+            var_dump($this->validator->getImageName());
         }
         if (isset($_SESSION['register']['success'])) {
             $this->context = [

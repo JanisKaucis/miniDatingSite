@@ -9,6 +9,7 @@ use App\Middleware\MiddlewareInterface;
 use App\Repositories\MysqlRegisteredUsers;
 use App\Repositories\RegisteredUsersRepository;
 use App\Services\LoginService;
+use App\Services\MainMenuService;
 use App\Services\RegisterService;
 use App\Validation\LoginValidator;
 use App\Validation\LoginValidatorInterface;
@@ -29,8 +30,10 @@ $container->add(RegisterService::class,RegisterService::class)
     ->addArguments([RegisteredUsersRepository::class, RegisterValidatorInterface::class]);
 $container->add(LoginService::class,LoginService::class)
     ->addArgument(LoginValidatorInterface::class);
-$container->add(MiddlewareInterface::class,AuthMiddleware::class)
-    ->addArgument(RegisteredUsersRepository::class);
+//$container->add(MiddlewareInterface::class,AuthMiddleware::class)
+//    ->addArgument(RegisteredUsersRepository::class);
+$container->add(MainMenuService::class,MainMenuService::class)
+    ->addArguments([RegisteredUsersRepository::class]);
 
 $container->add(IndexController::class,IndexController::class)
 ->addArgument($twig);
@@ -40,4 +43,4 @@ $container->add(LoginController::class,LoginController::class)
     ->addArguments([$twig,LoginService::class]);
 
 $container->add(MainMenuController::class,MainMenuController::class)
-    ->addArguments([$twig]);
+    ->addArguments([$twig, MainMenuService::class]);
