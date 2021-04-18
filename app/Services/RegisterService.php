@@ -40,12 +40,7 @@ class RegisterService
                 $this->validator->getBirthYear(),
                 $this->validator->getPassword());//TODO hide password
             $this->registeredUsersRepository->addUser($person);
-            header('Location: /register');
-        }
-        else {
-            echo 'Not registered';
-            var_dump($this->validator->getName());
-            var_dump($this->validator->getImageName());
+//            header('Location: /register');
         }
         if (isset($_SESSION['register']['success'])) {
             $this->context = [

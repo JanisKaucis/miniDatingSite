@@ -83,9 +83,17 @@ class RegisterValidator implements RegisterValidatorInterface
                 //uploadImage
                 if (!empty($_FILES["image"]["name"])) {
                     $target_dir = "/home/janis/Desktop/php-projects/miniDatingSite/app/Storage/Pictures/";
+                    //create multiple image directories
                     $this->imageName = basename($_FILES["image"]["name"]);
-                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    $imagePathCreator = md5($this->imageName);
+                    $pathArray = str_split($imagePathCreator,2);
+                    if ( ! is_dir($target_dir.$pathArray[0].'/'.$pathArray[1])) {
+                        mkdir($target_dir.$pathArray[0].'/'.$pathArray[1],0777,true);
+                    }
+                    $this->imageName = $pathArray[0].'/'.$pathArray[1].'/'.$this->imageName;
+
+                    $target_file = $target_dir . $this->imageName;
+                    $imageFileType = strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION));
                     // Check if image file is a actual image or fake image
                     $check = getimagesize($_FILES["image"]["tmp_name"]);
                     if ($check !== false) {

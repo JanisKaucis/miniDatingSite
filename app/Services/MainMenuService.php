@@ -15,10 +15,16 @@ class MainMenuService
 
     public function showUser()
     {
-        $user = $this->registeredUsersRepository->selectByEmail($_SESSION['login']['email']);
-        $userName = $user[0]['name'];
+        $userInfo = $this->registeredUsersRepository->selectByEmail($_SESSION['login']['email']);
+        $userName = $userInfo[0]['name'];
+        $userSurname = $userInfo[0]['surname'];
+        $userAge = 2020 - $userInfo[0]['birth_year'];
+        $userImagePath = 'Pictures/'.$userInfo[0]['picture_path'];
         $this->context = [
-            'name' => $userName
+            'name' => $userName,
+            'surname' => $userSurname,
+            'age' => $userAge,
+            'picture' => $userImagePath
         ];
     }
     public function getContext()

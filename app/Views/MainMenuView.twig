@@ -6,8 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<p>Hello {{ name}} in menu page</p>
+<div class="split">
+    <button type="button" onclick="location.href = 'logout.php'">Logout</button>
+    <div class="centered">
+<p>Name: {{ name}}</p>
+<p>Surname: {{ surname}}</p>
+<p>Age: {{ age }}</p>
+<p>Picture</p>
+<img src="{{ picture }}" width="300">
+        <button type="button" onclick="location.href = 'findPeople'">Logout</button>
+    </div>
+</div>
 </body>
 </html>
