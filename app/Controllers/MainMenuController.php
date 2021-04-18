@@ -17,7 +17,6 @@ class MainMenuController
     public function mainMenu()
     {
         $this->mainMenuService->showUser();
-        echo $this->twig->render('MainMenuHeaderView.twig');
         echo $this->twig->render('MainMenuView.twig', $this->mainMenuService->getContext());
     }
 }

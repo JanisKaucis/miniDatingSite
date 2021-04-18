@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\FindPeopleController;
 use App\Controllers\IndexController;
 use App\Controllers\LoginController;
 use App\Controllers\MainMenuController;
@@ -16,6 +17,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET','POST'],'/login',[LoginController::class,'login']);
     $r->addRoute(['GET','POST'],'/register',[RegisterController::class,'register']);
     $r->addRoute('GET','/mainMenu',[MainMenuController::class,'mainMenu']);
+    $r->addRoute('GET','/findPeople',[FindPeopleController::class,'showPeople']);
 });
 //Middleware
 $middlewares = [

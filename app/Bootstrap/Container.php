@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\FindPeopleController;
 use App\Controllers\IndexController;
 use App\Controllers\LoginController;
 use App\Controllers\MainMenuController;
@@ -41,6 +42,7 @@ $container->add(RegisterController::class,RegisterController::class)
     ->addArguments([RegisterService::class,$twig]);
 $container->add(LoginController::class,LoginController::class)
     ->addArguments([$twig,LoginService::class]);
-
 $container->add(MainMenuController::class,MainMenuController::class)
     ->addArguments([$twig, MainMenuService::class]);
+$container->add(FindPeopleController::class,FindPeopleController::class)
+    ->addArguments([$twig]);
