@@ -9,10 +9,11 @@
 </head>
 <body>
 <form method="post">
-    <label for="login">Name: </label>
-    <input type="text" id="login" name="name"><br>
+    <label for="login">Email: </label>
+    <input type="text" id="login" name="email">{{ emailErr }}<br>
     <label for="login">Password: </label>
-    <input type="text" id="login" name="password"><br>
+    <input type="text" id="login" name="password">{{ passwordErr }}<br>
+    {{ loginErr }}<br>
     <input type="submit" name="login" value="Login">
     <button type="button" onclick="location.href = 'register'">Register if not</button>
 </form>

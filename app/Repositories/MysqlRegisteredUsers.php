@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\RegisteredPerson;
-use App\Services\RegisterService;
 use Medoo\Medoo;
 
 class MysqlRegisteredUsers implements RegisteredUsersRepository
@@ -24,5 +23,15 @@ class MysqlRegisteredUsers implements RegisteredUsersRepository
         $this->database->insert('registered_users',['name' => $person->getName(),
             'surname' => $person->getSurname(),'gender' => $person->getGender(),'email' => $person->getEmail(),
             'birth_year' => $person->getBirthYear(),'password' => $person->getPassword()]);
+    }
+    public function selectByEmail($email):array
+    {
+        return $this->database->select('registered_users',['name','surname','gender','email','birth_year'],
+            ['email' => $email]);
+    }
+    public function selectByEmailAndPassword($email,$password):array
+    {
+        return $this->database->select('registered_users',['name','surname','gender','birth_year'],['email' => $email,
+            'password' => $password]);
     }
 }

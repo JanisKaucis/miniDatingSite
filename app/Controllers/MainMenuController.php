@@ -4,17 +4,15 @@ namespace App\Controllers;
 
 use Twig\Environment;
 
-class IndexController
+class MainMenuController
 {
     private Environment $twig;
-
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
-
-    public function StartMenu()
+    public function mainMenu()
     {
-        echo $this->twig->render('StartMenu.twig');
+        echo $this->twig->render('MainMenuView.twig');
     }
 }

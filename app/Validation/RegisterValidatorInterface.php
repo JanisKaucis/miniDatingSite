@@ -1,7 +1,7 @@
 <?php
 namespace App\Validation;
 
-interface ValidatorInterface
+interface RegisterValidatorInterface
 {
     public function inputRefactor($data): string;
     public function validateRegisterForm();
