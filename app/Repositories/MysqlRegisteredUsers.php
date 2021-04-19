@@ -27,12 +27,12 @@ class MysqlRegisteredUsers implements RegisteredUsersRepository
     }
     public function selectByEmail($email):array
     {
-        return $this->database->select('registered_users',['name','surname','gender','email','birth_year','picture_path'],
+        return $this->database->select('registered_users',['name','surname','gender','email','birth_year','password','picture_path'],
             ['email' => $email]);
     }
     public function selectByEmailAndPassword($email,$password):array
     {
-        return $this->database->select('registered_users',['name','surname','gender','birth_year','picture_path'],['email' => $email,
+        return $this->database->select('registered_users',['name','surname','gender','birth_year','password','picture_path'],['email' => $email,
             'password' => $password]);
     }
 }

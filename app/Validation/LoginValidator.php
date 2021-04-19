@@ -29,9 +29,17 @@ class LoginValidator implements LoginValidatorInterface
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['login']['email'] = $_POST['email'];
             $_SESSION['login']['password'] = $_POST['password'];
+
             if (empty($_POST['email'])) {
                 $this->emailErr = 'Email is required';
+                $hash = '';
             } else {
+                $user =$this->registeredUsersRepository->selectByEmail($_POST['email']);
+                if (!empty($user)){
+                    $hash = $user[0]['password'];
+                }else{
+                    $hash = '';
+                }
                 $this->email = $this->inputRefactor($_SESSION['login']['email']);
             }
             if (empty($_POST['password'])) {
@@ -40,8 +48,8 @@ class LoginValidator implements LoginValidatorInterface
                 $this->password = $this->inputRefactor($_SESSION['login']['password']);
             }
             if (!empty($_POST['email']) && !empty($_POST['password']) &&
-                empty($this->registeredUsersRepository->selectByEmailAndPassword($_POST['email'],
-                    $_POST['password']))){
+                empty($this->registeredUsersRepository->selectByEmail($_POST['email'])) ||
+                    password_verify($_POST['password'],$hash) == false){
                 $this->loginErr = 'Invalid email or password';
             }
         }

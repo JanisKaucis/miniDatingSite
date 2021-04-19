@@ -3,7 +3,6 @@
 namespace App\Middleware;
 
 use App\Repositories\RegisteredUsersRepository;
-use App\Services\LoginService;
 
 class AuthMiddleware implements MiddlewareInterface
 {
@@ -18,7 +17,14 @@ class AuthMiddleware implements MiddlewareInterface
     {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!empty($this->registeredUsersRepository->selectByEmailAndPassword($_POST['email'], $_POST['password']))) {
+            $user =$this->registeredUsersRepository->selectByEmail($_POST['email']);
+            if (!empty($user)){
+                $hash = $user[0]['password'];
+            }else{
+                $hash = '';
+            }
+            if (!empty($this->registeredUsersRepository->selectByEmail($_POST['email']))
+            && password_verify($_POST['password'],$hash)) {
                 header('Location: mainMenu');
             }
 

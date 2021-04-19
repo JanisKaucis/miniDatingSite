@@ -38,9 +38,9 @@ class RegisterService
             $person = new RegisteredPerson($this->validator->getName(), $this->validator->getSurname(),
                 $this->validator->getGender(), $this->validator->getEmail(),$this->validator->getImageName(),
                 $this->validator->getBirthYear(),
-                $this->validator->getPassword());//TODO hide password
+                password_hash($this->validator->getPassword(),PASSWORD_DEFAULT));
             $this->registeredUsersRepository->addUser($person);
-//            header('Location: /register');
+            header('Location: /register');
         }
         if (isset($_SESSION['register']['success'])) {
             $this->context = [

@@ -85,8 +85,10 @@ class RegisterValidator implements RegisterValidatorInterface
                     $target_dir = "/home/janis/Desktop/php-projects/miniDatingSite/app/Storage/Pictures/";
                     //create multiple image directories
                     $this->imageName = basename($_FILES["image"]["name"]);
-                    $imagePathCreator = md5($this->imageName);
-                    $pathArray = str_split($imagePathCreator,2);
+                    $imageType = explode('.',$this->imageName);
+                    $imageType = $imageType[1];
+                    $this->imageName = md5($this->imageName).'.'.$imageType;
+                    $pathArray = str_split($this->imageName,2);
                     if ( ! is_dir($target_dir.$pathArray[0].'/'.$pathArray[1])) {
                         mkdir($target_dir.$pathArray[0].'/'.$pathArray[1],0777,true);
                     }
