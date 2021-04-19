@@ -18,7 +18,7 @@ class MysqlRegisteredUsers implements RegisteredUsersRepository
             'password' => ''
         ]);
     }
-    public function addUser(RegisteredPerson $person)
+    public function addUser(RegisteredPerson $person):void
     {
         $this->database->insert('registered_users',['name' => $person->getName(),
             'surname' => $person->getSurname(),'gender' => $person->getGender(),'email' => $person->getEmail(),
@@ -27,12 +27,19 @@ class MysqlRegisteredUsers implements RegisteredUsersRepository
     }
     public function selectByEmail($email):array
     {
-        return $this->database->select('registered_users',['name','surname','gender','email','birth_year','password','picture_path'],
+        return $this->database->select('registered_users',['name','surname','gender','email',
+            'birth_year','password','picture_path'],
             ['email' => $email]);
     }
     public function selectByEmailAndPassword($email,$password):array
     {
-        return $this->database->select('registered_users',['name','surname','gender','birth_year','password','picture_path'],['email' => $email,
+        return $this->database->select('registered_users',['name','surname','gender','birth_year',
+            'password','picture_path'],['email' => $email,
             'password' => $password]);
+    }
+    public function selectByGender($gender):array
+    {
+        return $this->database->select('registered_users',['name','surname','gender','email',
+            'birth_year','picture_path'],['gender' => $gender]);
     }
 }

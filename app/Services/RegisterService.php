@@ -34,13 +34,14 @@ class RegisterService
             }
 
         if (!empty($this->validator->getName()) && !empty($this->validator->getSurname()) &&
-            !empty($this->validator->getPassword()) && !empty($this->validator->getEmail())) {
+            !empty($this->validator->getPassword()) && !empty($this->validator->getEmail()) &&
+            empty($this->validator->getImageErr())) {
             $person = new RegisteredPerson($this->validator->getName(), $this->validator->getSurname(),
                 $this->validator->getGender(), $this->validator->getEmail(),$this->validator->getImageName(),
                 $this->validator->getBirthYear(),
                 password_hash($this->validator->getPassword(),PASSWORD_DEFAULT));
             $this->registeredUsersRepository->addUser($person);
-            header('Location: /register');
+//            header('Location: /register');
         }
         if (isset($_SESSION['register']['success'])) {
             $this->context = [

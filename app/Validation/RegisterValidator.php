@@ -12,7 +12,7 @@ class RegisterValidator implements RegisterValidatorInterface
     private string $password = '';
     private string $gender = '';
     private string $birthYear = '';
-    private int $uploadOk = 1;
+    private int $uploadOk;
     private string $imageName = '';
     private string $nameErr = '';
     private string $surnameErr = '';
@@ -76,9 +76,6 @@ class RegisterValidator implements RegisterValidatorInterface
             }
             $this->gender = $this->inputRefactor($_SESSION['register']['gender']);
             $this->birthYear = $this->inputRefactor($_SESSION['register']['birthYear']);
-            if (!empty($this->name) && !empty($this->surname) && !empty($this->email) &&
-                !empty($this->password)) {
-                $_SESSION['register']['success'] = 'You have successfully registered';
 
                 //uploadImage
                 if (!empty($_FILES["image"]["name"])) {
@@ -97,15 +94,16 @@ class RegisterValidator implements RegisterValidatorInterface
                     $target_file = $target_dir . $this->imageName;
                     $imageFileType = strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION));
                     // Check if image file is a actual image or fake image
-                    $check = getimagesize($_FILES["image"]["tmp_name"]);
-                    if ($check !== false) {
-                        $this->uploadOk = 1;
-                    } else {
-                        $this->imageErr = "File is not an image.";
-                        $this->uploadOk = 0;
-                    }
+                    $this->uploadOk = 1;
+//                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+//                    if ($check !== false) {
+//                        $this->uploadOk = 1;
+//                    } else {
+//                        $this->imageErr = "File is not an image.";
+//                        $this->uploadOk = 0;
+//                    }
                     // Check file size
-                    if ($_FILES["image"]["size"] > 2000000) {
+                    if ($_FILES["image"]["size"] > 8000000) {
                         $this->imageErr = "Sorry, your file is too large.";
                         $this->uploadOk = 0;
                     }
@@ -119,9 +117,12 @@ class RegisterValidator implements RegisterValidatorInterface
                         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
                     }
                 }
+            if (!empty($this->name) && !empty($this->surname) && !empty($this->email) &&
+                !empty($this->password) && $this->uploadOk == 1) {
+                $_SESSION['register']['success'] = 'You have successfully registered';
+            }
             }
         }
-    }
 
     public function getName():string
     {
