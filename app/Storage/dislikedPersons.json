@@ -1,0 +1,24 @@
+[
+  {
+    "userEmail": "valdis@bertrups.lv",
+    "dislikedUsers": {
+      "name": "Marta",
+      "surname": "Berze",
+      "gender": "female",
+      "email": "marta@berze.lv",
+      "birth_year": "1985",
+      "picture_path": "f1\/b5\/f1b55fe1d73dbfa2d90ef706d5027c20.jpg"
+    }
+  },
+  {
+    "userEmail": "valdis@bertrups.lv",
+    "dislikedUsers": {
+      "name": "Anastasija",
+      "surname": "Pelde",
+      "gender": "female",
+      "email": "anastasija@pelde.lv",
+      "birth_year": "1989",
+      "picture_path": "c8\/83\/c88346016a2a577b0bc276bfdf030fd1.jpg"
+    }
+  }
+]

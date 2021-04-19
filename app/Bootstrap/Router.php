@@ -16,8 +16,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET','/', [IndexController::class,'StartMenu']);
     $r->addRoute(['GET','POST'],'/login',[LoginController::class,'login']);
     $r->addRoute(['GET','POST'],'/register',[RegisterController::class,'register']);
-    $r->addRoute('GET','/mainMenu',[MainMenuController::class,'mainMenu']);
-    $r->addRoute('GET','/findPeople',[FindPeopleController::class,'showPeople']);
+    $r->addRoute(['GET','POST'],'/mainMenu',[MainMenuController::class,'mainMenu']);
+    $r->addRoute(['GET','POST'],'/findPeople',[FindPeopleController::class,'showPeople']);
 });
 //Middleware
 $middlewares = [

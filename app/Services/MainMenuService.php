@@ -20,6 +20,9 @@ class MainMenuService
         $userSurname = $userInfo[0]['surname'];
         $userAge = 2020 - $userInfo[0]['birth_year'];
         $userImagePath = 'Pictures/'.$userInfo[0]['picture_path'];
+//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//            $_SESSION['login']['findPeople'] = $_POST['findPeople'];
+//        }
         $this->context = [
             'name' => $userName,
             'surname' => $userSurname,

@@ -17,7 +17,9 @@
 <p>Age: {{ age }}</p>
 <p>Picture</p>
 <img src="{{ picture }}" width="300"><br>
-        <button type="button" onclick="location.href = 'findPeople'">Find Opposite Sex</button>
+        <form method="post" action="/findPeople">
+        <input type="submit" name="findPeople" value="Find Opposite Sex">
+        </form>
     </div>
 </div>
 </body>

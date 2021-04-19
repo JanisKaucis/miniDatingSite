@@ -95,13 +95,7 @@ class RegisterValidator implements RegisterValidatorInterface
                     $imageFileType = strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION));
                     // Check if image file is a actual image or fake image
                     $this->uploadOk = 1;
-//                    $check = getimagesize($_FILES["image"]["tmp_name"]);
-//                    if ($check !== false) {
-//                        $this->uploadOk = 1;
-//                    } else {
-//                        $this->imageErr = "File is not an image.";
-//                        $this->uploadOk = 0;
-//                    }
+
                     // Check file size
                     if ($_FILES["image"]["size"] > 8000000) {
                         $this->imageErr = "Sorry, your file is too large.";

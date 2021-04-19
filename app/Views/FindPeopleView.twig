@@ -6,18 +6,68 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="css/peoplestyle.css" rel="stylesheet">
 </head>
 <body>
-<button type="button" onclick="location.href = 'mainMenu'">Profile</button>
-<div id="gallerywrapper">
-    <div id="gallery">
-        <div id="pic1">
-            <img src="https://unsplash.it/g/500/350?random" height="350" width="500" alt="Image 1">
-            <a class="next" href="#pic2">&gt;</a>
-            <h3>Image 1</h3>
-            <p>Text of image 1.</p>
-        </div>
-    </div>
-</div>
+<button type="button" onclick="location.href = 'mainMenu'">Profile</button><br>
+{# <div class="slideshow-container"> #}
+
+{# <!-- Full-width images with number and caption text --> #}
+{# {% for user in users %} #}
+{# <div class="mySlides fade"> #}
+{# <img src="Pictures/{{ user['picture_path'] }}" style="height:300px"> #}
+{# <div class="text"> #}
+{# {{ user['name'] }}<br> #}
+{# Vecums: {{ date - user['birth_year'] }}<br> #}
+{# </div> #}
+{# <form method="post"> #}
+{# <button type="submit" name="like" value="{{ user['name'] }}" onclick="plusSlides(1)">Like</button> #}
+{# <button type="submit" name="dislike" value="{{ user['name'] }}" onclick="plusSlides(1)" >Dislike</button> #}
+{# </form> #}
+{# </div> #}
+{# {% endfor %} #}
+{# </div> #}
+<img src="Pictures/{{ person['picture_path'] }}" style="height:300px"><br>
+{{ error }} <br>
+Name: {{ person['name'] }}
+<form method="post">
+    <input type="submit" name="like"
+           class="button" value="Like"/>
+
+    <input type="submit" name="dislike"
+           class="button" value="Dislike"/>
+</form>
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+</script>
 </body>
 </html>

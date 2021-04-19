@@ -10,7 +10,8 @@
         "league/container": "^3.3",
         "nikic/fast-route": "^1.3",
         "twig/twig": "^3.3",
-        "catfan/medoo": "^1.7"
+        "catfan/medoo": "^1.7",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
