@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Services\FindPeopleService;
@@ -14,12 +15,13 @@ class FindPeopleController
         $this->twig = $twig;
         $this->findPeopleService = $findPeopleService;
     }
+
     public function showPeople()
     {
         $this->findPeopleService->showOppositeSex();
         $this->findPeopleService->likeUser();
         $this->findPeopleService->dislikeUser();
-
-        echo $this->twig->render('FindPeopleView.twig',$this->findPeopleService->getContext());
+        $this->findPeopleService->checkForMatch();
+        echo $this->twig->render('FindPeopleView.twig', $this->findPeopleService->getContext());
     }
 }

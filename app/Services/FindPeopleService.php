@@ -88,25 +88,46 @@ class FindPeopleService
     public function likeUser()
     {
         if (isset($_POST['like'])) {
+            if (!empty($this->people)) {
+                $likedPerson = new LikedPerson($this->userEmail, $this->people[0]);
+                $likedPerson = get_object_vars($likedPerson);
 
+                if (!empty($this->likedPersonArray)) {
+
+                    $LikedFileToEncode = array_merge($this->likedPersonArray, [$likedPerson]);
+                } else {
+                    $LikedFileToEncode = [$likedPerson];
+                }
+                $likedFile = fopen('Storage/likedPersons.json', 'w');
+                fwrite($likedFile, json_encode($LikedFileToEncode));
+                fclose($likedFile);
+                unset($this->people[0]);
+                $file = fopen('Storage/persons.json', 'w');
+                $this->people = array_values($this->people);
+                fwrite($file, json_encode($this->people));
+                fclose($file);
+            }
+            header('Location: findPeople');
+        }
+        if (isset($_SESSION['login']['match'])){
+            $this->context['match'] = $_SESSION['login']['match'];
+            unset($_SESSION['login']['match']);
+        }
+    }
+    public function checkForMatch()
+    {
+        if (!empty($this->people)) {
             $likedPerson = new LikedPerson($this->userEmail, $this->people[0]);
             $likedPerson = get_object_vars($likedPerson);
 
-            if (!empty($this->likedPersonArray)) {
-
-                $LikedFileToEncode = array_merge($this->likedPersonArray, [$likedPerson]);
-            } else {
-                $LikedFileToEncode = [$likedPerson];
+            if (isset($_POST['like'])) {
+                foreach ($this->likedPersonArray as $users) {
+                    if ($users['userEmail'] == $likedPerson['likedUsers']['email'] &&
+                        $users['likedUsers']['email'] == $this->userEmail) {
+                        $_SESSION['login']['match'] = 'Match!';
+                    }
+                }
             }
-            $likedFile = fopen('Storage/likedPersons.json', 'w');
-            fwrite($likedFile, json_encode($LikedFileToEncode));
-            fclose($likedFile);
-            unset($this->people[0]);
-            $file = fopen('Storage/persons.json', 'w');
-            $this->people = array_values($this->people);
-            fwrite($file, json_encode($this->people));
-            fclose($file);
-            header('Location: findPeople');
         }
     }
 

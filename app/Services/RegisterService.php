@@ -41,7 +41,7 @@ class RegisterService
                 $this->validator->getBirthYear(),
                 password_hash($this->validator->getPassword(),PASSWORD_DEFAULT));
             $this->registeredUsersRepository->addUser($person);
-//            header('Location: /register');
+            header('Location: /register');
         }
         if (isset($_SESSION['register']['success'])) {
             $this->context = [

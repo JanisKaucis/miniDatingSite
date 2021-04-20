@@ -12,7 +12,11 @@
 <button type="button" onclick="location.href = 'mainMenu'">Profile</button><br>
 {% if person is not empty %}
 <img src="Pictures/{{ person[0]['picture_path'] }}" style="height:300px" alt="Image"><br>
-Name: {{ person['name'] }}<br>
+    {% if match is not empty %}
+    {{ match }}<br>
+       Email: {{ person[0]['email'] }}<br>
+        {% endif %}
+Name: {{ person[0]['name'] }}<br>
     Age: {{ date - person[0]['birth_year'] }}
     <form method="post">
         <input type="submit" name="like"
