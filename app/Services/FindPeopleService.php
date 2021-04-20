@@ -10,6 +10,10 @@ class FindPeopleService
 {
     private RegisteredUsersRepository $registeredUsersRepository;
     private array $context;
+    private string $userEmail;
+    private $people;
+    private array $likedPersonArray;
+    private array $dislikedPersonArray;
 
     public function __construct(RegisteredUsersRepository $registeredUsersRepository)
     {
@@ -19,7 +23,7 @@ class FindPeopleService
     public function showOppositeSex()
     {
         $user = $this->registeredUsersRepository->selectByEmail($_SESSION['login']['email']);
-        $userEmail = $user[0]['email'];
+        $this->userEmail = $user[0]['email'];
         $date = date('Y');
 
         if ($user[0]['gender'] == 'male') {
@@ -28,17 +32,17 @@ class FindPeopleService
             $gender = 'male';
         }
         $likedPersonString = file_get_contents('Storage/likedPersons.json');
-        $likedPersonArray = json_decode($likedPersonString, true);
+        $this->likedPersonArray = json_decode($likedPersonString, true);
         $dislikedPersonString = file_get_contents('Storage/dislikedPersons.json');
-        $dislikedPersonArray = json_decode($dislikedPersonString, true);
+        $this->dislikedPersonArray = json_decode($dislikedPersonString, true);
         if (isset($_POST['findPeople'])) {
-            file_put_contents('Storage/persons.json','');
+            file_put_contents('Storage/persons.json', '');
 
             $oppositeUsers = $this->registeredUsersRepository->selectByGender($gender);
             shuffle($oppositeUsers);
-            if (!empty($likedPersonArray)) {
-                foreach ($likedPersonArray as $likedUser) {
-                    if ($userEmail == $likedUser['userEmail']) {
+            if (!empty($this->likedPersonArray)) {
+                foreach ($this->likedPersonArray as $likedUser) {
+                    if ($this->userEmail == $likedUser['userEmail']) {
                         foreach ($oppositeUsers as $key => $oppositeUser) {
                             if ($oppositeUser['email'] == $likedUser['likedUsers']['email']) {
                                 unset($oppositeUsers[$key]);
@@ -47,9 +51,9 @@ class FindPeopleService
                     }
                 }
             }
-            if (!empty($dislikedPersonArray)) {
-                foreach ($dislikedPersonArray as $dislikedUser) {
-                    if ($userEmail == $dislikedUser['userEmail']) {
+            if (!empty($this->dislikedPersonArray)) {
+                foreach ($this->dislikedPersonArray as $dislikedUser) {
+                    if ($this->userEmail == $dislikedUser['userEmail']) {
                         foreach ($oppositeUsers as $key => $oppositeUser) {
                             if ($oppositeUser['email'] == $dislikedUser['dislikedUsers']['email']) {
                                 unset($oppositeUsers[$key]);
@@ -66,60 +70,68 @@ class FindPeopleService
         }
 
         $PersonString = file_get_contents('Storage/persons.json');
-        $people = json_decode($PersonString, true);
-        if (!empty($people)) {
-            if (isset($_POST['like'])) {
-
-                $likedPerson = new LikedPerson($userEmail, $people[0]);
-                $likedPerson = get_object_vars($likedPerson);
-
-                if (!empty($likedPersonString)) {
-
-                    $fileToEncode = array_merge($likedPersonArray, [$likedPerson]);
-                } else {
-                    $fileToEncode = [$likedPerson];
-                }
-                $file = fopen('Storage/likedPersons.json', 'w');
-                fwrite($file, json_encode($fileToEncode));
-                fclose($file);
-                unset($people[0]);
-                $file = fopen('Storage/persons.json', 'w');
-                $people = array_values($people);
-                fwrite($file, json_encode($people));
-                fclose($file);
-                header('Location: findPeople');
-            }
-            if (isset($_POST['dislike'])) {
-
-                $dislikedPerson = new DislikedPerson($userEmail, $people[0]);
-                $dislikedPerson = get_object_vars($dislikedPerson);
-
-                if (!empty($dislikedPersonString)) {
-
-                    $fileToEncode = array_merge($dislikedPersonArray, [$dislikedPerson]);
-                } else {
-                    $fileToEncode = [$dislikedPerson];
-                }
-                $file = fopen('Storage/dislikedPersons.json', 'w');
-                fwrite($file, json_encode($fileToEncode));
-                fclose($file);
-                unset($people[0]);
-                $file = fopen('Storage/persons.json', 'w');
-                $people = array_values($people);
-                fwrite($file, json_encode($people));
-                fclose($file);
-                header('Location: findPeople');
-            }
+        $this->people = json_decode($PersonString, true);
+        if (!empty($this->people)) {
             $error = '';
         } else {
-            $people[0]['picture_path'] = 'default.png';
+            $this->people[0]['picture_path'] = 'default.png';
             $error = 'No more people to show';
         }
         $this->context = [
             'date' => $date,
-            'person' => $people[0],
+            'person' => $this->people[0],
             'error' => $error
         ];
+    }
+
+    public function likeUser()
+    {
+        if (isset($_POST['like'])) {
+
+            $likedPerson = new LikedPerson($this->userEmail, $this->people[0]);
+            $likedPerson = get_object_vars($likedPerson);
+
+            if (!empty($likedPersonString)) {
+
+                $LikedFileToEncode = array_merge($this->likedPersonArray, [$likedPerson]);
+            } else {
+                $LikedFileToEncode = [$likedPerson];
+            }
+            $likedFile = fopen('Storage/likedPersons.json', 'w');
+            fwrite($likedFile, json_encode($LikedFileToEncode));
+            fclose($likedFile);
+            unset($this->people[0]);
+            $file = fopen('Storage/persons.json', 'w');
+            $this->people = array_values($this->people);
+            fwrite($file, json_encode($this->people));
+            fclose($file);
+            header('Location: findPeople');
+        }
+    }
+
+    public function dislikeUser()
+    {
+        if (isset($_POST['dislike'])) {
+
+            $dislikedPerson = new DislikedPerson($this->userEmail, $this->people[0]);
+            $dislikedPerson = get_object_vars($dislikedPerson);
+
+            if (!empty($dislikedPersonString)) {
+
+                $dislikedFileToEncode = array_merge($this->dislikedPersonArray, [$dislikedPerson]);
+            } else {
+                $dislikedFileToEncode = [$dislikedPerson];
+            }
+            $dislikedFile = fopen('Storage/dislikedPersons.json', 'w');
+            fwrite($dislikedFile, json_encode($dislikedFileToEncode));
+            fclose($dislikedFile);
+            unset($this->people[0]);
+            $file = fopen('Storage/persons.json', 'w');
+            $this->people = array_values($this->people);
+            fwrite($file, json_encode($this->people));
+            fclose($file);
+            header('Location: findPeople');
+        }
     }
 
     public function getContext(): array

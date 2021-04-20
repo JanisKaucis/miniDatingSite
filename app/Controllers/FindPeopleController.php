@@ -17,6 +17,9 @@ class FindPeopleController
     public function showPeople()
     {
         $this->findPeopleService->showOppositeSex();
+        $this->findPeopleService->likeUser();
+        $this->findPeopleService->dislikeUser();
+
         echo $this->twig->render('FindPeopleView.twig',$this->findPeopleService->getContext());
     }
 }
