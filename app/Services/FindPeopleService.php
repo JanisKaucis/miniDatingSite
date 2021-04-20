@@ -107,12 +107,14 @@ class FindPeopleService
                 fwrite($file, json_encode($this->people));
                 fclose($file);
             }
-            header('Location: findPeople');
+            if (isset($_SESSION['login']['match'])){
+                $this->context['match'] = $_SESSION['login']['match'];
+                unset($_SESSION['login']['match']);
+            }else{
+                header('Location: findPeople');
+            }
         }
-        if (isset($_SESSION['login']['match'])){
-            $this->context['match'] = $_SESSION['login']['match'];
-            unset($_SESSION['login']['match']);
-        }
+
     }
     public function checkForMatch()
     {
