@@ -5,6 +5,7 @@ use App\Controllers\IndexController;
 use App\Controllers\LoginController;
 use App\Controllers\MainMenuController;
 use App\Controllers\RegisterController;
+use App\Controllers\ShowLikedController;
 use App\Middleware\AuthMiddleware;
 use App\Repositories\RegisteredUsersRepository;
 
@@ -18,6 +19,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET','POST'],'/register',[RegisterController::class,'register']);
     $r->addRoute(['GET','POST'],'/mainMenu',[MainMenuController::class,'mainMenu']);
     $r->addRoute(['GET','POST'],'/findPeople',[FindPeopleController::class,'showPeople']);
+    $r->addRoute(['GET','POST'],'/showLiked',[ShowLikedController::class,'showLiked']);
 });
 //Middleware
 $middlewares = [

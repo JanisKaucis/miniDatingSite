@@ -11,9 +11,9 @@ class FindPeopleService
     private RegisteredUsersRepository $registeredUsersRepository;
     private array $context;
     private string $userEmail;
-    private $people;
-    private array $likedPersonArray;
-    private array $dislikedPersonArray;
+    private array $people = [];
+    private array $likedPersonArray = [];
+    private array $dislikedPersonArray = [];
 
     public function __construct(RegisteredUsersRepository $registeredUsersRepository)
     {
@@ -32,18 +32,22 @@ class FindPeopleService
             $gender = 'male';
         }
         $likedPersonString = file_get_contents('Storage/likedPersons.json');
-        $this->likedPersonArray = json_decode($likedPersonString, true);
+        if (!empty($likedPersonString)){
+            $this->likedPersonArray = json_decode($likedPersonString, true);
+        }
         $dislikedPersonString = file_get_contents('Storage/dislikedPersons.json');
-        $this->dislikedPersonArray = json_decode($dislikedPersonString, true);
+        if (!empty($dislikedPersonString)){
+            $this->dislikedPersonArray = json_decode($dislikedPersonString, true);
+        }
         if (isset($_POST['findPeople'])) {
-            file_put_contents('Storage/persons.json', '');
+            file_put_contents('Storage/persons.json', []);
 
             $oppositeUsers = $this->registeredUsersRepository->selectByGender($gender);
             shuffle($oppositeUsers);
             if (!empty($this->likedPersonArray)) {
                 foreach ($this->likedPersonArray as $likedUser) {
                     if ($this->userEmail == $likedUser['userEmail']) {
-                        foreach ($oppositeUsers as $key => $oppositeUser) {
+                        foreach ($oppositeUsers as $key => $oppositeUser){
                             if ($oppositeUser['email'] == $likedUser['likedUsers']['email']) {
                                 unset($oppositeUsers[$key]);
                             }
@@ -54,15 +58,16 @@ class FindPeopleService
             if (!empty($this->dislikedPersonArray)) {
                 foreach ($this->dislikedPersonArray as $dislikedUser) {
                     if ($this->userEmail == $dislikedUser['userEmail']) {
-                        foreach ($oppositeUsers as $key => $oppositeUser) {
-                            if ($oppositeUser['email'] == $dislikedUser['dislikedUsers']['email']) {
-                                unset($oppositeUsers[$key]);
-                            }
+                        foreach ($oppositeUsers as $key => $oppositeUser){
+                                if ($oppositeUser['email'] == $dislikedUser['dislikedUsers']['email']) {
+                                    unset($oppositeUsers[$key]);
+                                }
                         }
                     }
                 }
             }
             if (!empty($oppositeUsers)) {
+                $oppositeUsers = array_values($oppositeUsers);
                 $file = fopen('Storage/persons.json', 'w');
                 fwrite($file, json_encode($oppositeUsers));
                 fclose($file);
@@ -70,17 +75,13 @@ class FindPeopleService
         }
 
         $PersonString = file_get_contents('Storage/persons.json');
-        $this->people = json_decode($PersonString, true);
-        if (!empty($this->people)) {
-            $error = '';
-        } else {
-            $this->people[0]['picture_path'] = 'default.png';
-            $error = 'No more people to show';
+        if (!empty($PersonString)){
+            $this->people = json_decode($PersonString, true);
         }
+
         $this->context = [
             'date' => $date,
-            'person' => $this->people[0],
-            'error' => $error
+            'person' => $this->people,
         ];
     }
 
@@ -91,7 +92,7 @@ class FindPeopleService
             $likedPerson = new LikedPerson($this->userEmail, $this->people[0]);
             $likedPerson = get_object_vars($likedPerson);
 
-            if (!empty($likedPersonString)) {
+            if (!empty($this->likedPersonArray)) {
 
                 $LikedFileToEncode = array_merge($this->likedPersonArray, [$likedPerson]);
             } else {
@@ -116,7 +117,7 @@ class FindPeopleService
             $dislikedPerson = new DislikedPerson($this->userEmail, $this->people[0]);
             $dislikedPerson = get_object_vars($dislikedPerson);
 
-            if (!empty($dislikedPersonString)) {
+            if (!empty($this->dislikedPersonArray)) {
 
                 $dislikedFileToEncode = array_merge($this->dislikedPersonArray, [$dislikedPerson]);
             } else {

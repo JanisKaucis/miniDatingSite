@@ -10,12 +10,4 @@ class LikedPerson
         $this->userEmail = $userEmail;
         $this->likedUsers = $likedUsers;
     }
-    public function getUserEmail(): string
-    {
-        return $this->userEmail;
-    }
-    public function getLikedUsers(): array
-    {
-        return $this->likedUsers;
-    }
 }

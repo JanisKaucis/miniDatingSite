@@ -10,12 +10,4 @@ class DislikedPerson
         $this->userEmail = $userEmail;
         $this->dislikedUsers = $dislikedUsers;
     }
-    public function getUserEmail(): string
-    {
-        return $this->userEmail;
-    }
-    public function getLikedUsers(): array
-    {
-        return $this->dislikedUsers;
-    }
 }

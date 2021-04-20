@@ -11,12 +11,13 @@
 <body>
 <div class="split">
     <button type="button" onclick="location.href = 'logout.php'">Logout</button>
+    <button type="button" onclick="location.href = 'showLiked'">Show Liked</button>
     <div class="centered">
 <p>Name: {{ name}}</p>
 <p>Surname: {{ surname}}</p>
 <p>Age: {{ age }}</p>
 <p>Picture</p>
-<img src="{{ picture }}" width="300"><br>
+<img src="{{ picture }}" width="300" alt="Image"><br>
         <form method="post" action="/findPeople">
         <input type="submit" name="findPeople" value="Find Opposite Sex">
         </form>
