@@ -3,6 +3,7 @@
 use App\Controllers\FindPeopleController;
 use App\Controllers\IndexController;
 use App\Controllers\LoginController;
+use App\Controllers\LogoutController;
 use App\Controllers\MainMenuController;
 use App\Controllers\RegisterController;
 use App\Controllers\ShowLikedController;
@@ -20,6 +21,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET','POST'],'/mainMenu',[MainMenuController::class,'mainMenu']);
     $r->addRoute(['GET','POST'],'/findPeople',[FindPeopleController::class,'showPeople']);
     $r->addRoute(['GET','POST'],'/showLiked',[ShowLikedController::class,'showLiked']);
+    $r->addRoute('GET','/logout',[LogoutController::class,'logout']);
 });
 //Middleware
 $middlewares = [

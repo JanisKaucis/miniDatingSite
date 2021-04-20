@@ -3,6 +3,7 @@
 use App\Controllers\FindPeopleController;
 use App\Controllers\IndexController;
 use App\Controllers\LoginController;
+use App\Controllers\LogoutController;
 use App\Controllers\MainMenuController;
 use App\Controllers\RegisterController;
 use App\Controllers\ShowLikedController;
@@ -51,3 +52,4 @@ $container->add(FindPeopleController::class,FindPeopleController::class)
     ->addArguments([$twig, FindPeopleService::class]);
 $container->add(ShowLikedController::class,ShowLikedController::class)
     ->addArguments([$twig,ShowLikedService::class]);
+$container->add(LogoutController::class,LogoutController::class);
