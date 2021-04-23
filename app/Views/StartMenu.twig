@@ -6,9 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="build/tailwind.css" rel="stylesheet">
+    <link href="css/tailwind.css" rel="stylesheet">
 </head>
-<body>
-<button type="button" onclick="location.href = 'login'">Login</button>
-<button type="button" onclick="location.href = 'register'">Register</button>
+<body class="bg-gray-500">
+
+
+<div class="flex items-center justify-center h-80" >
+    <img src="Pictures/tinder.jpeg" alt="Dating site picture" width="20%">
+</div>
+<div class="flex items-center justify-center h-screen">
+
+        <button class="bg-pink-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="button" onclick="location.href = 'login'">Login</button>
+        <button class="bg-pink-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="button" onclick="location.href = 'register'">Register</button>
+</div>
 </body>
 </html>

@@ -6,16 +6,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+<link href="build/tailwind.css" rel="stylesheet">
+<link href="css/tailwind.css" rel="stylesheet">
 </head>
-<body>
-<form method="post" enctype="multipart/form-data">
-    <label for="register">Name: </label>
+<body class="bg-gray-500">
+<div class="flex items-center justify-center h-80" >
+    <img src="Pictures/tinder.jpeg" alt="Dating site picture" width="20%">
+</div>
+<div class="flex items-center justify-center h-screen">
+<form method="post" enctype="multipart/form-data" class="border-8 border-pink-500 bg-pink-500">
+    <label for="register">Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="register" name="name">{{ nameErr }}<br>
-    <label for="register">Surname: </label>
+    <label for="register">Surname:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;</label>
     <input type="text" id="register" name="surname">{{ surnameErr }}<br>
     <label for="register">Select image to upload: </label>
         <input type="file" name="image" id="register">{{ imageErr }}<br>
-    <label for="register">Email: </label>
+    <label for="register">Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</label>
     <input type="text" id="register" name="email">{{ emailErr }}<br>
     <label for="register">Gender: </label>
     <select id="register" name="gender">
@@ -139,13 +145,14 @@
             <option value="1906">1906</option>
             <option value="1905">1905</option>
     </select><br>
-    <label for="register">Password: </label>
+    <label for="register">Password: &nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;</label>
     <input type="text" id="register" name="password">{{ passwordErr }}<br>
     <label for="register">Repeat password: </label>
     <input type="text" id="register" name="password2">{{ password2Err }}<br>
-    <input type="submit" name="register" value="Register">
-    <button type="button" onclick="location.href = 'login'">Back to Login</button>
+    <input class="hover:bg-gray-500 bg-white" type="submit" name="register" value="Register">
+    <button class="hover:bg-gray-500 bg-white" type="button" onclick="location.href = 'login'">Back to Login</button>
 </form>
 {{ success }}
+</div>
 </body>
 </html>

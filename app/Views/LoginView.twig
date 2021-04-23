@@ -6,16 +6,23 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+<link href="build/tailwind.css" rel="stylesheet">
+<link href="css/tailwind.css" rel="stylesheet">
 </head>
-<body>
-<form method="post">
-    <label for="login">Email: </label>
-    <input type="text" id="login" name="email">{{ emailErr }}<br>
+<body class="bg-gray-500">
+<div class="flex items-center justify-center h-80" >
+    <img src="Pictures/tinder.jpeg" alt="Dating site picture" width="20%">
+</div>
+<div class="flex items-center justify-center h-screen">
+<form method="post" class="border-8 border-pink-500 bg-pink-500">
+    <label for="login">Email: &ensp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <input type="text" id="login" name="email" class="hover:bg-pink-100">{{ emailErr }}<br>
     <label for="login">Password: </label>
-    <input type="text" id="login" name="password">{{ passwordErr }}<br>
+    <input type="text" id="login" name="password" class="hover:bg-pink-100">{{ passwordErr }}<br>
     {{ loginErr }}<br>
-    <input type="submit" name="login" value="Login">
-    <button type="button" onclick="location.href = 'register'">Register if not</button>
+    <input class="hover:bg-gray-500 bg-white" type="submit" name="login" value="Login">
+    <button class="hover:bg-gray-500 bg-white" type="button" onclick="location.href = 'register'">Register if not</button>
 </form>
+</div>
 </body>
 </html>

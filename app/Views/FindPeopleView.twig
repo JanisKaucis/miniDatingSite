@@ -6,32 +6,37 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="css/peoplestyle.css" rel="stylesheet">
+<link href="build/tailwind.css" rel="stylesheet">
+<link href="css/tailwind.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 </head>
-<body>
-<button type="button" onclick="location.href = 'mainMenu'">Profile</button><br>
+<body class="bg-gray-500">
+<button class="bg-pink-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="button" onclick="location.href = 'mainMenu'">Profile</button><br>
+<div class="centered" >
 {% if person is not empty %}
-<img src="Pictures/{{ person[0]['picture_path'] }}" style="height:300px" alt="Image"><br>
+<img src="Pictures/{{ person[0]['picture_path'] }}" style="height:500px" alt="Image"><br>
+    <div class="bg-pink-500">
     {% if match is not empty %}
-    {{ match }}<br>
-       Email: {{ person[0]['email'] }}<br>
+        {{ match }}<br>
+        Email: {{ person[0]['email'] }}<br>
         Name: {{ person[0]['name'] }}<br>
         Age: {{ date - person[0]['birth_year'] }}<br>
-        <button type="button" onclick="location.href = 'findPeople'">Next</button><br>
+        <button class="bg-pink-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="button" onclick="location.href = 'findPeople'">Next</button><br>
         {% else %}
 Name: {{ person[0]['name'] }}<br>
     Age: {{ date - person[0]['birth_year'] }}
     <form method="post">
-        <input type="submit" name="like"
-               class="button" value="Like"/>
+        <input class="bg-red-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="submit" name="like"
+                value="Like"/>
 
-        <input type="submit" name="dislike"
-               class="button" value="Dislike"/>
+        <input class="bg-red-500 text-white font-bold rounded-lg border shadow-lg p-2.5" type="submit" name="dislike"
+              value="Dislike"/>
     </form>
     {% endif %}
 {% else %}
 <p>No more people to show</p>
 {% endif %}
-
+</div>
+</div>
 </body>
 </html>
